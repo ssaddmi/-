@@ -8,16 +8,13 @@
 #include <algorithm>
 #include <vector>
 
-
 using namespace std;
 
-void qsort(string *words, int first, int N);
 void squeeze(string &n);
 int test(char i);
 bool rus(char x);
-void counter(vector <string> words, vector<int>& an, char alp[32]);
+void counter(vector <string> words, vector<int>& an, char alp[33]);
 void convert(string& s);
-
 void sort(string* S, int N);
 
 vector <string> different;
@@ -29,14 +26,12 @@ int main()
 {
 	setlocale(LC_ALL, "Rus");
     int count = 0;
-    
-	ifstream file;
-	string n;
+    string n;
     string a;
+	ifstream file;
 	cout << "Введите название файла по типу: '13.txt'" << endl;
 	cin >> a;
 	file.open(a);
-    //file.open("13.txt");
 	if (file.is_open())
 	{
 		cout << "Файл открыт!";
@@ -49,34 +44,29 @@ int main()
 	{
 		n.clear();
 		file >> n;
-        squeeze(n);
-        words.push_back(n);
+        squeeze(n); //функция, которая удаляет лиишние символы(знаки препинания и прочие)
+        words.push_back(n);  //добавление всех возможных слов и чисел в массив
         
 	}
     file.close();
-    
-    for (int i = 0; i < words.size(); i++)
-    {
-        cout << words[i] << '\n';
-    }
 
     for (int i = 0; i < words.size(); i++)
     {
         
         auto it = words.begin();
-        if (words[i][0] >= '0' && words[i][0] <= '9')
+        if (words[i][0] >= '0' && words[i][0] <= '9') //добавление чисел в отедльный массив и удаление из основного массива слов
         {
             numbers.push_back(words[i]);
             words.erase(it + i);
             i--;
             
         }
-        else if (words[i][0] == '\0')
+        else if (words[i][0] == '\0') //удаление пустых строк
         {
             words.erase(it + i);
             i--;
         }
-        else if (rus(words[i][0]) == false)
+        else if (rus(words[i][0]) == false) //добавление неопределенных слов в отдельных массив и удаление их из основного элемента
         {
             different.push_back(n);
             words.erase(it + i);
@@ -90,36 +80,68 @@ int main()
     vector<int> an(33);
     for (int i = 0; i < words.size(); i++)
     {
-        convert(words[i]);
-        lower.push_back(words[i]);
+        convert(words[i]); //функция, которая конвертирует слова в слова с нижним регистром
+        lower.push_back(words[i]); //добавление обработанных слов в отдельный массив
     }
-    counter(lower, an, alp);
+    counter(lower, an, alp); //подсчет статистики количества слов в файле на определенную букву
+
+
+    count = 0;
+    count += words.size();
+    int first = 0;
+
+
+    string* S = new string[count]; 
+    for (int i = 0; i < words.size(); i++)
+    {
+        S[i] = lower[i]; //заполнение динамического массива
+    }
+    clock_t t; //Вычисляет реальное прошедшее время для процесса.
+    t = clock();
+    sort(S, count - 1);
+    t = clock() - t; 
+
+    string c = "Test";
+    c += a;
+    ofstream Test(c);
+    for (int i = 0; i < words.size(); i++) //запись в файл отсортированных слов
+    {
+        Test << S[i] << "\n";
+    }
+    Test.close();
+    delete[] S;
 
     
     string b = "Analysis";
     b += a;
     ofstream analysis(b);
-    if (analysis.is_open())
+    if (analysis.is_open()) //запись в файл статистики слов, времени работы сортировки и т.д.
     {
-        analysis << "Вариант 5: кириллица, по алфавиту, по возрастанию, учитывать числа, быстрая сортировка" << endl << "Количество слов: " << words.size() << endl << /*"Время сортировки: " << (((float)time) / CLOCKS_PER_SEC) << " сек." << endl << */ "Статистика (кол-во слов по первой букве):" << endl;
+        analysis << "Вариант 5: кириллица, по алфавиту, по возрастанию, учитывать числа, быстрая сортировка" << endl << "Количество слов: " << words.size() << endl << "Время сортировки: " << (((float)t) / CLOCKS_PER_SEC) << " сек." << endl <<  "Статистика (кол-во слов по первой букве):" << endl;
+        cout << endl << "Вариант 5: кириллица, по алфавиту, по возрастанию, учитывать числа, быстрая сортировка" << endl << "Количество слов: " << words.size() << endl << "Время сортировки: " << (((float)t) / CLOCKS_PER_SEC) << " сек." << endl <<  "Статистика (кол-во слов по первой букве):" << endl;
         for (int i = 0; i < 33; i++)
         {
-            analysis << endl << alp[i] << " - " << an[i];
+            analysis << alp[i] << " - " << an[i] << "\n";
+            cout << alp[i] << " - " << an[i] << "\n";
         }
         if (numbers.size() > 0)
         {
-            analysis << endl << "Также имеются числа: " << endl;
+            analysis << endl << "Также имеются числа: " << "\n";
+            cout << endl << "Также имеются числа: " << "\n";
             for (int i = 0; i < numbers.size(); i++)
             {
-                analysis << endl << numbers[i];
+                analysis <<  numbers[i] << "\n";
+                cout << numbers[i] << "\n";
             }
         }
         if (different.size() > 0)
         {
-            analysis << endl << "Также имеются неопределенные элементы: " << endl;
+            analysis << endl << "Также имеются неопределенные элементы: " << "\n";
+            cout << endl << "Также имеются неопределенные элементы: " << "\n";
             for (int i = 0; i < different.size(); i++)
             {
-                analysis << endl << different[i];
+                analysis << different[i];
+                cout << different[i];
             }
         }
             
@@ -129,30 +151,10 @@ int main()
 
 
 
-    count = 0;
-    count += words.size();
-    int first = 0;
     
-
-    string *S = new string[count];
-    for (int i = 0; i < words.size(); i++)
-    {
-        S[i] = lower[i];
-    }
-
-    sort(S, count - 1);
-    string c = "Test";
-    c += a;
-    ofstream Test(c);
-    for (int i = 0; i < words.size(); i++)
-    {
-        Test << endl << S[i];
-    }
-    Test.close();
-    delete[] S;
 }
 
-void squeeze(string &n)
+void squeeze(string &n) //функция, которая удаляет лишние символы из слов: знаки препинания и прочие
 {
     
     for (int i = 0; i < n.length() + 1; i++)
@@ -165,7 +167,7 @@ void squeeze(string &n)
         }   
     }
 }
-int test(char i)
+int test(char i) //функция, которая проверяет элемент, выводит ложь, если элемент - знак препинания
 {
     if (ispunct(i) || i == '№' || i == ' ')
         return false;
@@ -184,7 +186,7 @@ bool rus(char x) // Проверка на символ кириллицы
         return false;
     }
 }
-void counter(vector<string> words, vector<int>& an, char alp[32])
+void counter(vector<string> words, vector<int>& an, char alp[33]) //функция, которая подсчиытвает количество слов на определенную букву
 {
     int counter = 0;
     for (int i = 0; i < 33; i++)
@@ -200,7 +202,7 @@ void counter(vector<string> words, vector<int>& an, char alp[32])
         counter = 0;
     }
 }
-void convert(string& s)
+void convert(string& s) //функция, приводящая слова к нижнему регистру 
 {
     for (int i = 0; i < s.length(); i++)
     {
@@ -208,43 +210,20 @@ void convert(string& s)
     }
 }
 
-/*ФУНКЦИЯ СОРТИРОВКИ СТРОК*/
-//void qsort(string *words, int first, int N)
-//{
-//    
-//    int left = first, right = N;
-//    int mid = (left+right)/2;
-//    do
-//    {
-//        while (words[left][0] < words[mid][0]) left++;
-//        while (words[right][0] > words[mid][0]) right--;
-//
-//        if (left <= right)
-//        {
-//            swap(words[left], words[right]);
-//            
-//            left++;
-//            right--;
-//        }
-//    } while (left < right);
-//
-//    if (right > 0) qsort(words, first, right);
-//    if (N > left) qsort(words + left,left, N);
-//}
-
-
-
-void sort(string* S, int N)
+void sort(string* S, int N) //функция быстрой сортировки массива строк
 {
-    long i = 0, j = N;
+    long i = 0, j = N; //Указатели в начало и в конец массива
     string temp1, p;
-    p = S[N >> 1];
+    p = S[N >> 1]; //Центральный элемент массива
+    //Делим массив
     do
     {
-        while (S[i] < p) i++;
-        while (S[j] > p) j--;
+        while (S[i] < p) i++;//Пробегаем элементы, ищем те, которые нужно перекинуть в другую часть
+        //В левой части массива пропускаем(оставляем на месте) элементы, которые меньше центрального
+        while (S[j] > p) j--;//В правой части пропускаем элементы, которые больше центрального
         if (i <= j)
         {
+            //Меняем элементы местами
             temp1 = S[i];
             S[i] = S[j];
             S[j] = temp1;
@@ -252,7 +231,7 @@ void sort(string* S, int N)
             j--;
         }
     } while (i <= j);
-
-    if (j > 0) sort(S, j);
-    if (N > i) sort(S + i, N - i);
+    //Рекурсивные вызовы, если осталось, что сортировать
+    if (j > 0) sort(S, j);//"Левый кусок"
+    if (N > i) sort(S + i, N - i);//"Првый кусок"
 }
