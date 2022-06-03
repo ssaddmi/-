@@ -1,0 +1,15 @@
+﻿"Курсовая работа.exe" (Win32). Загружено "C:\vs_projects\Курсовая работа\x64\Debug\Курсовая работа.exe". Символы загружены.
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\ntdll.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\kernel32.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\KernelBase.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\msvcp140d.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\vcruntime140d.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\vcruntime140_1d.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\ucrtbased.dll". 
+Поток 0x7224 завершился с кодом 0 (0x0).
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\kernel.appcore.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\msvcrt.dll". 
+"Курсовая работа.exe" (Win32). Загружено "C:\Windows\System32\rpcrt4.dll". 
+Поток 0x4e38 завершился с кодом 0 (0x0).
+Поток 0x3a18 завершился с кодом 0 (0x0).
+Программа "[33052] Курсовая работа.exe" завершилась с кодом 0 (0x0).
